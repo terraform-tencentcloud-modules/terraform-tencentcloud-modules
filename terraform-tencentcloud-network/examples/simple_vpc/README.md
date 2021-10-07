@@ -8,7 +8,7 @@ The [subnet attributes](https://registry.terraform.io/providers/tencentcloudstac
 
 The subnet attribute will take route_table_id for custom route table. If no `route_table_id` but `route_table_name` passed instead in the map, the module will look for a map of name-id for custom route table(s).   
 
-If there is no route table information to subnet, subnet will use the default route table of the VPC.
+If there is no route table information specified for the subnet, subnet will use the default route table of the VPC.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs

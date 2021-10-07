@@ -114,8 +114,8 @@ The subnets list contains maps, where each object represents a subnet. Each map 
 | cidr\_block | The IP and CIDR range of the subnet being created | `string` | - | yes |
 | availability\_zone | The availability zone within which the subnet should be created. | `string` | - | yes |
 | is\_multicast | Indicates whether multicast is enabled. | `bool` | `true` | no |
-| route\_table\_id | ID of a routing table to which the subnet should be associated. If this field is specified, the route\_table\_name field will be ignored. | - | no |
-| route\_table\_name | Name of a routing table to which the subnet should be associated. If this field is specified, the module will also expect a custom\_route\_tables input which is a map of name-id of route tables. | `string` | no | 
+| route\_table\_id | ID of a routing table to which the subnet should be associated. If this field is specified, the route\_table\_name field will be ignored. | `string` | - | no |
+| route\_table\_name | Name of a routing table to which the subnet should be associated. If this field is specified, the module will also expect a custom\_route\_tables input which is a map of name-id of route tables. | `string` | - | no | 
 | tags | Tags of the subnet. | `map(string)` | - | no |
 
 
