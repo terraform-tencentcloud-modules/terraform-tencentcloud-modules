@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-variable "subnet_tags" {
-  description = "Additional tags added to subnets."
+variable "tags" {
+  description = "The common tags added to subnets."
+  type        = map(string)
+  default     = {}
+}
+
+variable "custom_route_tables" {
+  description = "The name-id map of custom route tables"
   type        = map(string)
   default     = {}
 }
 
 variable "vpc_id" {
   type        = string
-  description = "The optional vpc id"
-  default     = ""
+  description = "The vpc id for subnets to be created"
 }
 
 variable "subnets" {
-  type        = list(map(string))
+  type        = list(any)
   description = "The list of subnets to be created"
 }
 

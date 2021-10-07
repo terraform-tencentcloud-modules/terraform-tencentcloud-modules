@@ -20,23 +20,36 @@ output "vpc_id" {
 }
 
 output "subnets_names" {
-  value       = [for network in module.subnets.subnets : network.name]
+  value       = [for subnet in module.subnets.subnets : subnet.name]
   description = "The names of the subnets being created"
 }
 
 output "subnets_ids" {
-  value       = [for network in module.subnets.subnets : network.id]
+  value       = [for subnet in module.subnets.subnets: subnet.id]
   description = "The IDs of the subnets being created"
 }
 
 output "subnets_ips" {
-  value       = [for network in module.subnets.subnets : network.cidr_block]
+  value       = [for subnet in module.subnets.subnets : subnet.cidr_block]
   description = "The IPs and CIDRs of the subnets being created"
 }
 
 output "subnets_azs" {
-  value       = [for network in module.subnets.subnets : network.availability_zone]
+  value       = [for subnet in module.subnets.subnets : subnet.availability_zone]
   description = "The availability zones of the subnets being created"
 }
 
+output "custom_route_table_names" {
+  value       = [for table in module.custom_route_tables.custom_route_tables : table.name]
+  description = "The names of the route tables being created"
+}
 
+output "custom_route_table_ids" {
+  value       = [for table in module.custom_route_tables.custom_route_tables : table.id]
+  description = "The IDs of the route tables being created"
+}
+
+output "route_entry_ids" {
+  value       = [for entry in module.route_entries.route_entries : entry.id]
+  description = "The IDs of the route entries being created"
+}

@@ -14,25 +14,29 @@
  * limitations under the License.
  */
 
-module "test" {
-  source          = "../../modules/subnets"
-
+data "tencentcloud_vpc_instances" "id_instances" {
   vpc_id = var.vpc_id
+}
+
+module "test" {
+  source = "../../modules/subnets"
+
+  vpc_id = data.tencentcloud_vpc_instances.id_instances.vpc_id
 
   subnets = [
+    #    {
+    #      name = "subnet1"
+    #      availability_zone = "na-siliconvalley-1"
+    #      cidr_block = "10.0.0.0/24"
+    #    },
     {
-      #name = "subnet1"
-      availability_zone = "na-siliconvalley-1"
-      cidr_block = "10.0.0.0/24"
-    },
-    {
-      name = "subnet2"
+      name              = "subnet2"
       availability_zone = "na-siliconvalley-2"
-      cidr_block = "10.0.1.0/24"
+      cidr_block        = "10.0.1.0/24"
+      route_table_id    = "rtb-lun4h2da"
+      tags = {
+        description = "subnet_tag"
+      }
     }
   ]
-
-  subnet_tags = {
-    description = "subnet_tag"
-  }
 }

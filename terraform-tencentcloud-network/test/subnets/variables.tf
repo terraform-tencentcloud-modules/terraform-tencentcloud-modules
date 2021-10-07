@@ -16,8 +16,8 @@
 
 variable "region" {
   description = "The testing region"
-  type = string
-  default = "na-siliconvalley"
+  type        = string
+  default     = "na-siliconvalley"
 }
 
 variable "vpc_id" {

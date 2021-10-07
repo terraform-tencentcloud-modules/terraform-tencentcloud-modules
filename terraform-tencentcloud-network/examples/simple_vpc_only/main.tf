@@ -16,7 +16,7 @@
 
 module "test" {
   source          = "../../../terraform-tencentcloud-network"
-  vpc_name = "simple-vpc-jliao"
+  vpc_name = "simple-vpc-test"
   vpc_cidr = "10.0.0.0/16"
 
   tags = {

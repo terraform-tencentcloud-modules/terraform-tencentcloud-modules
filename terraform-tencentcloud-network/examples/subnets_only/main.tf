@@ -23,21 +23,22 @@ module "test" {
       name = "subnet1"
       availability_zone = "na-siliconvalley-1"
       cidr_block = "10.0.0.0/24"
-    },
-    {
-      name = "subnet2"
-      availability_zone = "na-siliconvalley-2"
-      cidr_block = "10.0.1.0/24"
-    }
+      tags = {
+         description = "subnet1_tag"
+      }
+    } #,
+    #{
+    #  name = "subnet2"
+    #  availability_zone = "na-siliconvalley-2"
+    #  cidr_block = "10.0.1.0/24"
+    #  tags = {
+    #    description = "subnet2_tag"
+    #  }
+    #}
   ]
-
-  subnet_tags = {
-    description = "subnet_tag"
-  }
 
   tags = {
     module = "vpc"
     created_by = "terraform_tester"
   }
-
 }

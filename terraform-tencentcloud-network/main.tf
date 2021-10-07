@@ -29,13 +29,35 @@ module "vpc" {
 }
 
 /******************************************
+        Custom Route Tables
+ *****************************************/
+module "custom_route_tables" {
+  source = "./modules/route_tables"
+
+  vpc_id = module.vpc.vpc_id
+  tags = var.tags
+  route_tables = var.custom_route_tables
+}
+
+/******************************************
 	Subnet configuration
  *****************************************/
 module "subnets" {
   source = "./modules/subnets"
+  
   vpc_id = module.vpc.vpc_id
-
+  custom_route_tables = var.custom_route_tables == [] ? {} : module.custom_route_tables.custom_route_tables_name_id
   subnets     = var.subnets
-  subnet_tags = merge(var.tags, var.subnet_tags)
+  tags = var.tags
 }
 
+
+/******************************************
+        Route Entries
+ *****************************************/
+module "route_entries" {
+  source = "./modules/route_entries"
+
+  custom_route_tables = var.custom_route_tables == [] ? {} : module.custom_route_tables.custom_route_tables_name_id
+  route_entries = var.route_entries
+}

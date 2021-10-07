@@ -17,10 +17,10 @@
 module "test" {
   source          = "../../modules/vpc"
   #vpc_id   = "vpc-ec4sejkt"
-  vpc_name = "simple-vpc-jliao"
-  #vpc_cidr = "10.0.0.0/16"
+  vpc_name = "simple-vpc-test"
+  vpc_cidr = "10.0.0.0/16"
 
-  tags = {
+  vpc_tags = {
     module = "vpc"
     created_by = "terraform_tester"
   }

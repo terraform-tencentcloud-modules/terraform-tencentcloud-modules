@@ -15,6 +15,11 @@
  */
 
 output "subnets" {
-  description = "The id(s) of created subnet resources."
+  description = "The list of created subnet resources."
   value       = tencentcloud_subnet.subnet
+}
+
+output "subnets_name_id" {
+  description = "The name-id map of created subnet resources."
+  value = { for network in tencentcloud_subnet.subnet : network.name => network.id}
 }

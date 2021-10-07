@@ -53,15 +53,20 @@ variable "vpc_dns_servers" {
   default     = []
 }
 
-variable "subnet_tags" {
-  description = "Additional tags added to subnets."
-  type        = map(string)
-  default     = {}
-}
-
 variable "subnets" {
-  type        = list(map(string))
+  type        = list(any)
   description = "The list of subnets to be created"
   default     = []
 }
 
+variable "custom_route_tables" {
+  type        = list(object({name=string, tags=map(string)}))
+  description = "The list of custom route tables to be created"
+  default     = []
+}
+
+variable "route_entries" {
+  description = "The list of custom route entries."
+  type        = list(map(string))
+  default     = []
+}

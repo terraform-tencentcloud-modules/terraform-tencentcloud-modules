@@ -16,7 +16,7 @@
 
 module "test" {
   source          = "../../../terraform-tencentcloud-network"
-  vpc_name = "simple-vpc-jliao"
+  vpc_name = "simple-vpc-test"
   vpc_cidr = "10.0.0.0/16"
 
   subnets = [
@@ -24,17 +24,19 @@ module "test" {
       name = "subnet1"
       availability_zone = "na-siliconvalley-1"
       cidr_block = "10.0.0.0/24"
-    },
-    {
-      name = "subnet2"
-      availability_zone = "na-siliconvalley-2"
-      cidr_block = "10.0.1.0/24"
-    }
+      tags = {
+        description = "subnet1_tag"
+      }
+    } #,
+    #{
+    #  name = "subnet2"
+    #  availability_zone = "na-siliconvalley-2"
+    #  cidr_block = "10.0.1.0/24"
+    #  tags = {
+    #    description = "subnet_tag"
+    #  }
+    #}
   ]
-
-  subnet_tags = {
-    description = "subnet_tag"
-  }
 
   tags = {
     module = "vpc"

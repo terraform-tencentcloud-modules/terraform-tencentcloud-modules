@@ -28,6 +28,9 @@ resource "tencentcloud_subnet" "subnet" {
   availability_zone = each.value.availability_zone
   cidr_block        = each.value.cidr_block
 
-  tags         = var.subnet_tags
+  tags         = merge(var.tags, lookup(each.value, "tags", {}))
   is_multicast = lookup(each.value, "is_multicast", "false")
+
+  # If route_table_id is configured, use the route_table_id value. Otherwise, use the value of "route_table_name" to find the route_table_id.
+  route_table_id = lookup(each.value, "route_table_id", lookup(var.custom_route_tables, lookup(each.value, "route_table_name", ""), ""))
 }

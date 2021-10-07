@@ -1,90 +1,60 @@
-# TencentCloud VPC Module for Terraform
+# Terraform Subnets Module
 
-## terraform-tencentcloud-vpc
+This submodule is part of the the `terraform-tencentcloud-network` module. It creates the individual VPC subnets.
 
-A terraform module used to create TencentCloud VPC, subnet and route entry.
+It supports creating:
 
-The following resources are included.
-
-* [VPC](https://www.terraform.io/docs/providers/tencentcloud/r/vpc.html)
-* [VPC Subnet](https://www.terraform.io/docs/providers/tencentcloud/r/subnet.html)
-* [VPC Route Entry](https://www.terraform.io/docs/providers/tencentcloud/r/route_table_entry.html)
+- Subnets within vpc network.
 
 ## Usage
 
+Basic usage of this submodule is as follows:
+
 ```hcl
-module "vpc" {
-  source  = "terraform-tencentcloud-modules/vpc/tencentcloud"
-  version = "1.0.3"
+data "tencentcloud_vpc_instances" "id_instances" {
+  vpc_id = var.vpc_id
+}
 
-  vpc_name = "simple-vpc"
-  vpc_cidr = "10.0.0.0/16"
+module "subnet" {
+    source  = "terraform-tencentcloud-modules/terraform-tencentclouid-network/modules/subnets"
 
-  subnet_name  = "simple-vpc"
-  subnet_cidrs = ["10.0.0.0/24"]
+    vpc_id = data.tencentcloud_vpc_instances.id_instances.vpc_id
 
-  destination_cidrs = ["1.0.1.0/24"]
-  next_type         = ["EIP"]
-  next_hub          = ["0"]
-
-  tags = {
-    module = "vpc"
-  }
-
-  vpc_tags = {
-    test = "vpc"
-  }
-
-  subnet_tags = {
-    test = "subnet"
-  }
+    subnets = [
+       {
+         name = "subnet1"
+         availability_zone = "na-siliconvalley-1"
+         cidr_block = "10.0.0.0/24"
+       },
+       {
+         name              = "subnet2"
+         availability_zone = "na-siliconvalley-2"
+         cidr_block        = "10.0.1.0/24"
+         route_table_id    = "rtb-lun4h2da"
+         tags = {
+           description = "subnet_tag"
+         }
+       }
+    ]
 }
 ```
 
-## Conditional Creation
-
-This module can create VPC and VPC Subnet.
-It is possible to use existing VPC when specify `vpc_id` parameter.
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| tags | A map of tags to add to all resources. | map(string) | {} | no
-| cpu_core_count | CPU core count used to query supported available zones. | number | 1 | no
-| memory_size | Memory size used to query supported available zones. | number | 2 | no
-| gpu_core_count | GPU core count used to query supported available zones. | number | 0 | no
-| vpc_id | The vpc id used to launch resources. | string | "" | no
-| vpc_name | The vpc name used to launch a new vpc when 'vpc_id' is not specified. | string | tf-modules-vpc | no
-| vpc_cidr | The cidr block used to launch a new vpc when 'vpc_id' is not specified. | string | 172.16.0.0/16 | no
-| vpc_is_multicast | Specify the vpc is multicast when 'vpc_id' is not specified. | bool | true | no
-| vpc_dns_servers | Specify the vpc dns servers when 'vpc_id' is not specified. | list(string) | [] | no
-| vpc_tags | Additional tags for the vpc. | map(string) | {} | no
-| subnet_name | Specify the subnet name when 'vpc_id' is not specified. | string | tf-modules-subnet | no
-| subnet_cidrs | Specify the subnet cidr blocks when 'vpc_id' is not specified. | list(string) | [] | no
-| subnet_is_multicast | Specify the subnet is multicast when 'vpc_id' is not specified. | bool | true | no
-| subnet_tags | Additional tags for the subnet. | map(string) | {} | no
-| availability_zones | List of available zones to launch resources. | list(string) | [] | no
-| route_table_id | The route table id of router table in the specified vpc. | string | "" | no
-| destination_cidrs | List of destination CIDR blocks of router table in the specified VPC. | list(string) | [] | no
-| next_type | List of next hop types of router table in the specified vpc. | list(string) | [] | no
-| next_hub | List of next hop gateway id of router table in the specified vpc. | list(string) | [] | no
+|------|-------------|------|---------|:--------:|
+| vpc\_id | The ID of VPC for the subnets to be created into | `string` | n/a | yes |
+| tags | The common tags added to the subnets. | `map(string)` | `{}` | no |
+| subnets | The list of subnets to be created | `list(any)` | - | yes |
+| custom\_route\_tables | The name-id map of route tables. If any subnet uses route\_table\_name to associate route table, this name-to-id map for the route table(s) if required. | `map(string)` | `{}` | no |
+
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| vpc_id | The id of vpc. |
-| subnet_id | The id of subnet. |
-| route_table_id | The id of route table. |
-| route_entry_id | The id of route table entry. |
-| availability_zones | The availability zones of instance type. |
+| subnets | A map with keys of form availability\_zone/cidr\_block and values being the outputs of the tencentcloud\_subnet resources used to create corresponding subnets. |
+| subnets\_name\_id | The name-id map of created subnet resources. |
 
-## Authors
-
-Created and maintained by [TencentCloud](https://github.com/terraform-providers/terraform-provider-tencentcloud)
-
-## License
-
-Mozilla Public License Version 2.0.
-See LICENSE for full details.
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
