@@ -24,18 +24,21 @@ module "test" {
   vpc_id = data.tencentcloud_vpc_instances.id_instances.vpc_id
 
   subnets = [
-    #    {
-    #      name = "subnet1"
-    #      availability_zone = "na-siliconvalley-1"
-    #      cidr_block = "10.0.0.0/24"
-    #    },
+    {
+      name = "subnet1"
+      availability_zone = "na-siliconvalley-1"
+      cidr_block = "10.0.0.0/24"
+      tags = {
+        description = "subnet1_tag"
+      }
+    },
     {
       name              = "subnet2"
       availability_zone = "na-siliconvalley-2"
       cidr_block        = "10.0.1.0/24"
-      route_table_id    = "rtb-lun4h2da"
+      # route_table_id    = "rtb-lun4h2da"
       tags = {
-        description = "subnet_tag"
+        description = "subnet2_tag"
       }
     }
   ]
